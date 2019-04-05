@@ -14,6 +14,20 @@ public static class StockDataManager
         return LoadData();
     }
 
+    public static void UpdateStock(List<Item> stockItems)
+    {
+        stock.items = new List<Item>();
+        foreach (var item in stockItems)
+        {
+            stock.items.Add(new Item
+            {
+                name = item.name,
+                quantity = item.quantity
+            });
+        }
+        SaveData(stock);
+    }
+
     //LoadData from json file
     private static Stock LoadData()
     {
@@ -32,6 +46,21 @@ public static class StockDataManager
             }
         }
         return stock;
+    }
+
+    //SaveData in json file
+    private static void SaveData(Stock stock)
+    {
+        try
+        {
+            string filePath = Application.dataPath + projectFilePath;
+            string dataAsJson = JsonUtility.ToJson(stock);
+            File.WriteAllText(filePath, dataAsJson);
+        }
+        catch (Exception e)
+        {
+            Debug.Log("Exception caught" + e);
+        }
     }
 
     [Serializable]
