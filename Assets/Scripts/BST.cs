@@ -1,4 +1,7 @@
-﻿namespace BST 
+﻿using System;
+using UnityEngine;
+
+namespace BST 
 {
     public class BSTNode
     {
@@ -8,6 +11,7 @@
         {
             return (T)data;
         }
+
         public void SetData<T>(T newData)
         {
             data = newData;
@@ -35,11 +39,18 @@
             data = value;
         }
 
+        /// Compares two elements to determine their positions within the tree.
+        public static int CompareElements(object object1, object object2)
+        {
+            return 0;
+        }
+
         //recursively calls insert down the tree until it find an open spot
         public void Insert(object value)
         {
+            bool insertRightNode = CompareElements(value, data) >= 0;
             //if the value passed in is greater or equal to the data then insert to right node
-            if (value.GetHashCode() >= data.GetHashCode())
+            if (insertRightNode)
             {   //if right child node is null create one
                 if (rightNode == null)
                 {
@@ -67,16 +78,17 @@
         {
             //this node is the starting current node
             BSTNode currentNode = this;
-
+            bool insertRightNode = CompareElements(value, data) > 0;
+            bool isEqual = CompareElements(value, data) == 0;
             //loop through this node and all of the children of this node
             while (currentNode != null)
             {
                 //if the current nodes data is equal to the value passed in return it
-                if (value.GetHashCode() == currentNode.data.GetHashCode())
+                if (isEqual)
                 {
                     return currentNode;
                 }
-                else if (value.GetHashCode() > currentNode.data.GetHashCode())//if the value passed in is greater than the current data then go to the right child
+                else if (insertRightNode)//if the value passed in is greater than the current data then go to the right child
                 {
                     currentNode = currentNode.rightNode;
                 }
@@ -87,6 +99,21 @@
             }
             //Node not found
             return null;
+        }
+
+        //Root->Left->Right Nodes recursively of each subtree 
+        public void PreOrderTraversal()
+        {
+            //First we print the root node 
+            Debug.Log(data + " ");
+
+            //Then go to left child its children will be null so we print its data
+            if (leftNode != null)
+                leftNode.PreOrderTraversal();
+
+            //Then we go to the right node which will print itself as both its children are null
+            if (rightNode != null)
+                rightNode.PreOrderTraversal();
         }
     }
 
@@ -125,6 +152,12 @@
             {//if the root is null then we set the root to be a new node based on the data passed in
                 root = new BSTNode(data);
             }
+        }
+
+        public void PreorderTraversal()
+        {
+            if (root != null)
+                root.PreOrderTraversal();
         }
     }
 }

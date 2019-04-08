@@ -7,11 +7,11 @@ using UnityEngine.UI;
 public class UIStockManager : MonoBehaviour
 {
     [SerializeField]
-    private InputField itemNameInputField;
+    private InputField itemNameInputField = null;
     [SerializeField]
-    private InputField itemQuantityInputField;
+    private InputField itemQuantityInputField = null;
     private List<Item> stockItems = new List<Item>();
-
+    private BSTTree tree = new BSTTree();
     // Start is called before the first frame update
     void Start()
     {
@@ -30,14 +30,26 @@ public class UIStockManager : MonoBehaviour
         int.TryParse(itemQuantityInputField.text, out int itemQuantity);
         itemQuantity = Mathf.Abs(itemQuantity);
 
-        Item item = new Item()
-        {
-            name = itemName,
-            quantity = itemQuantity
-        };
 
-        BSTTree tree = new BSTTree();
-        BSTNode node = tree.Find(itemName.GetHashCode());
+        BSTNode node = tree.Find(itemName);
+        if (node == null)
+        {
+            Item item = new Item()
+            {
+                name = itemName,
+                quantity = itemQuantity
+            };
+            tree.Insert(item);
+        }
+        else
+        {
+            node.SetData(new Item
+            {
+                name = node.GetData<Item>().name,
+                quantity = itemQuantity
+            });
+        }
+        tree.PreorderTraversal();
     }
    
 }
