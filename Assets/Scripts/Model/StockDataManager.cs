@@ -21,6 +21,7 @@ public static class StockDataManager
         {
             stock.items.Add(new Item
             {
+                id = item.id,
                 name = item.name,
                 quantity = item.quantity
             });
@@ -42,8 +43,11 @@ public static class StockDataManager
             catch (Exception e)
             {
                 Debug.Log("Exception caught" + e);
-                stock = new Stock();
             }
+        }
+        else
+        {
+            stock = new Stock();
         }
         return stock;
     }

@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 
 namespace BST 
 {
     public class BSTNode
     {
+        private int nodeID;
         private object data;
 
         public T GetData<T>()
@@ -12,9 +15,10 @@ namespace BST
             return (T)data;
         }
 
-        public void SetData<T>(T newData)
+        public void SetData<T>(T newData, int id)
         {
             data = newData;
+            nodeID = id;
         }
 
         //Right Child
@@ -34,61 +38,54 @@ namespace BST
         }
 
         //Node constructor
-        public BSTNode(object value)
+        public BSTNode(int id, object value)
         {
             data = value;
-        }
-
-        /// Compares two elements to determine their positions within the tree.
-        public static int CompareElements(object object1, object object2)
-        {
-            return 0;
+            nodeID = id;
         }
 
         //recursively calls insert down the tree until it find an open spot
-        public void Insert(object value)
+        public void Insert(int id, object value)
         {
-            bool insertRightNode = CompareElements(value, data) >= 0;
+            bool insertRightNode = id >= nodeID;
             //if the value passed in is greater or equal to the data then insert to right node
             if (insertRightNode)
             {   //if right child node is null create one
                 if (rightNode == null)
                 {
-                    rightNode = new BSTNode(value);
+                    rightNode = new BSTNode(id, value);
                 }
                 else
                 {//if right node is not null recursivly call insert on the right node
-                    rightNode.Insert(value);
+                    rightNode.Insert(id, value);
                 }
             }
             else
             {//if the value passed in is less than the data then insert to left node
                 if (leftNode == null)
                 {//if the leftnode is null then create a new node
-                    leftNode = new BSTNode(value);
+                    leftNode = new BSTNode(id, value);
                 }
                 else
                 {//if the left node is not null then recursively call insert on the left node
-                    leftNode.Insert(value);
+                    leftNode.Insert(id, value);
                 }
             }
         }
 
-        public BSTNode Find(object value)
+        public BSTNode Find(int id)
         {
             //this node is the starting current node
             BSTNode currentNode = this;
-            bool insertRightNode = CompareElements(value, data) > 0;
-            bool isEqual = CompareElements(value, data) == 0;
             //loop through this node and all of the children of this node
             while (currentNode != null)
             {
                 //if the current nodes data is equal to the value passed in return it
-                if (isEqual)
+                if (id == currentNode.nodeID)
                 {
                     return currentNode;
                 }
-                else if (insertRightNode)//if the value passed in is greater than the current data then go to the right child
+                else if (id > currentNode.nodeID)//if the value passed in is greater than the current data then go to the right child
                 {
                     currentNode = currentNode.rightNode;
                 }
@@ -102,18 +99,18 @@ namespace BST
         }
 
         //Root->Left->Right Nodes recursively of each subtree 
-        public void PreOrderTraversal()
+        public void PreOrderTraversal<T>(List<T> nodes)
         {
             //First we print the root node 
-            Debug.Log(data + " ");
-
+            Debug.Log(data + " id: " + nodeID);
+            nodes.Add((T)data);
             //Then go to left child its children will be null so we print its data
             if (leftNode != null)
-                leftNode.PreOrderTraversal();
+                leftNode.PreOrderTraversal(nodes);
 
             //Then we go to the right node which will print itself as both its children are null
             if (rightNode != null)
-                rightNode.PreOrderTraversal();
+                rightNode.PreOrderTraversal(nodes);
         }
     }
 
@@ -126,13 +123,13 @@ namespace BST
         }
         
         //O(Log n)
-        public BSTNode Find(object data)
+        public BSTNode Find(int id)
         {
             //if the root is not null then we call the find method on the root
             if (root != null)
             {
                 // call node method Find
-                return root.Find(data);
+                return root.Find(id);
             }
             else
             {//the root is null so we return null, nothing to find
@@ -141,23 +138,23 @@ namespace BST
         }
 
         //O(Log n)
-        public void Insert(object data)
+        public void Insert(int id, object data)
         {
             //if the root is not null then we call the Insert method on the root node
             if (root != null)
             {
-                root.Insert(data);
+                root.Insert(id, data);
             }
             else
             {//if the root is null then we set the root to be a new node based on the data passed in
-                root = new BSTNode(data);
+                root = new BSTNode(id, data);
             }
         }
 
-        public void PreorderTraversal()
+        public void PreorderTraversal<T>(List<T> nodes)
         {
             if (root != null)
-                root.PreOrderTraversal();
+                root.PreOrderTraversal(nodes);
         }
     }
 }
