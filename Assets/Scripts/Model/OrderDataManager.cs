@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
@@ -11,6 +12,21 @@ public static class OrderDataManager
     public static Orders Orders
     {
         get => LoadData();
+    }
+
+    public static void UpdateOrders(List<Order> orderList)
+    {
+        orders.orders = new List<Order>();
+        foreach (var order in orderList)
+        {
+            orders.orders.Add(new Order
+            {
+                id = order.id,
+                clientName = order.clientName,
+                items = order.items
+            });
+        }
+        SaveData(orders);
     }
 
     //LoadData from json file
@@ -27,8 +43,11 @@ public static class OrderDataManager
             catch (Exception e)
             {
                 Debug.Log("Exception caught" + e);
-                orders = new Orders();
             }
+        }
+        else
+        {
+            orders = new Orders();
         }
         return orders;
     }

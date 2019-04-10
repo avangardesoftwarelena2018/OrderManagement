@@ -6,6 +6,8 @@ using UnityEngine.UI;
 public class QuantityPanel : MonoBehaviour
 {
     [SerializeField]
+    private UIOrdersManager uiOrdersManager = null;
+    [SerializeField]
     private InputField quantityInputField = null;
     [SerializeField]
     private Text warningMessage = null;
@@ -22,6 +24,7 @@ public class QuantityPanel : MonoBehaviour
         itemQuantity = Mathf.Abs(itemQuantity);
         if (itemQuantity <= currentItem.quantity && !string.IsNullOrEmpty(quantityInputField.text))
         {
+            uiOrdersManager.AddItemOrder(currentItem);
             gameObject.SetActive(false);
             warningMessage.text = "Insert quantity";
         }
