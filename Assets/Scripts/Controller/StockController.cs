@@ -1,19 +1,23 @@
 ﻿using System.Collections.Generic;
 using BST;
+using UnityEngine;
 
-public class StockController
+public class StockController : MonoBehaviour
 {
+    [SerializeField]
+    private UIStockManager uiStockManager = null;
     private BSTTree tree = new BSTTree();
 
     private void Start()
     {
-        foreach (var item in StockDataManager.GetStock().items)
+        foreach (Item item in StockDataManager.GetStock().items)
         {
             tree.Insert(item.id, item);
+            uiStockManager.UpdateUIContent(item);
         }
     }
 
-    public void AddUpdateItemBST(string itemName, int itemQuantity)
+    public void SetItemBST(string itemName, int itemQuantity)
     {
         int itemID = itemName.GetHashCode();
         BSTNode node = tree.Find(itemID);
@@ -40,5 +44,16 @@ public class StockController
         List<Item> nodes = new List<Item>();
         tree.PreorderTraversal(nodes);
         StockDataManager.UpdateStock(nodes);
+    }
+
+    public Item GetItemBST(string itemName)
+    {
+        int itemID = itemName.GetHashCode();
+        BSTNode node = tree.Find(itemID);
+        if (node != null)
+        {
+            return node.GetData<Item>();
+        }
+        return null;
     }
 }

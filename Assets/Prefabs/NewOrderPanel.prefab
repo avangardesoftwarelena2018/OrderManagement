@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7458978719369538960}
   - component: {fileID: 114364991991172172}
   m_Layer: 5
-  m_Name: ItemNameInputField
+  m_Name: CustomerNameInputField
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -454,7 +454,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4783247604158135031}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -700,7 +700,7 @@ GameObject:
   - component: {fileID: 1896848964953687965}
   - component: {fileID: 4983571174919495207}
   m_Layer: 5
-  m_Name: SaveButton
+  m_Name: CreateOrderButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
