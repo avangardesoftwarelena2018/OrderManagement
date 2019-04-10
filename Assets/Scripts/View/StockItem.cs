@@ -6,9 +6,9 @@ using UnityEngine.UI;
 public class StockItem : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField]
-    private Text nameText;
+    private Text nameText = null;
     [SerializeField]
-    private Text quantityText;
+    private Text quantityText = null;
     private Action<Item> callbackDoubleClick;
     private Item stockItem;
 

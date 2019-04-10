@@ -5,7 +5,7 @@ using UnityEngine;
 public class StockController : MonoBehaviour
 {
     [SerializeField]
-    private UIStockManager uiStockManager;
+    private UIStockManager uiStockManager = null;
     private BSTTree tree = new BSTTree();
 
     private void Start()
@@ -17,7 +17,7 @@ public class StockController : MonoBehaviour
         }
     }
 
-    public void AddUpdateItemBST(string itemName, int itemQuantity)
+    public void SetItemBST(string itemName, int itemQuantity)
     {
         int itemID = itemName.GetHashCode();
         BSTNode node = tree.Find(itemID);
@@ -44,5 +44,16 @@ public class StockController : MonoBehaviour
         List<Item> nodes = new List<Item>();
         tree.PreorderTraversal(nodes);
         StockDataManager.UpdateStock(nodes);
+    }
+
+    public Item GetItemBST(string itemName)
+    {
+        int itemID = itemName.GetHashCode();
+        BSTNode node = tree.Find(itemID);
+        if (node != null)
+        {
+            return node.GetData<Item>();
+        }
+        return null;
     }
 }

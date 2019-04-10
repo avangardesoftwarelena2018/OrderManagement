@@ -10,11 +10,11 @@ public class UIStockManager : MonoBehaviour
     [SerializeField]
     private InputField itemQuantityInputField = null;
     [SerializeField]
-    private Transform stockItemStockContent;
+    private Transform stockItemStockContent = null;
     [SerializeField]
-    private GameObject stockItem;
+    private GameObject stockItem = null;
     [SerializeField]
-    private GameObject quantityPanel;
+    private GameObject quantityPanel = null;
 
     public void UpdateUIContent(Item item)
     {
@@ -29,7 +29,9 @@ public class UIStockManager : MonoBehaviour
         itemQuantity = Mathf.Abs(itemQuantity);
         if (!string.IsNullOrEmpty(itemName))
         {
-            controller.AddUpdateItemBST(itemName, itemQuantity);
+            controller.SetItemBST(itemName, itemQuantity);
+            Item newAddedItem = controller.GetItemBST(itemName);
+            UpdateUIContent(newAddedItem);
         }
     }
 
