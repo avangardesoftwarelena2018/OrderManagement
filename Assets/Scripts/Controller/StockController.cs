@@ -1,15 +1,19 @@
 ﻿using System.Collections.Generic;
 using BST;
+using UnityEngine;
 
-public class StockController
+public class StockController : MonoBehaviour
 {
+    [SerializeField]
+    private UIStockManager uiStockManager;
     private BSTTree tree = new BSTTree();
 
     private void Start()
     {
-        foreach (var item in StockDataManager.GetStock().items)
+        foreach (Item item in StockDataManager.GetStock().items)
         {
             tree.Insert(item.id, item);
+            uiStockManager.UpdateUIContent(item);
         }
     }
 

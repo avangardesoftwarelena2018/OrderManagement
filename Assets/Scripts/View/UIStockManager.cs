@@ -9,7 +9,19 @@ public class UIStockManager : MonoBehaviour
     private InputField itemNameInputField = null;
     [SerializeField]
     private InputField itemQuantityInputField = null;
-   
+    [SerializeField]
+    private Transform stockItemStockContent;
+    [SerializeField]
+    private GameObject stockItem;
+    [SerializeField]
+    private GameObject quantityPanel;
+
+    public void UpdateUIContent(Item item)
+    {
+        GameObject itemGameObject = Instantiate(stockItem, stockItemStockContent);
+        itemGameObject.GetComponent<StockItem>().Initialize(item, OpenQuantityPanel);
+    }
+
     public void SaveStockItem()
     {
         string itemName = itemNameInputField.text;
@@ -19,5 +31,11 @@ public class UIStockManager : MonoBehaviour
         {
             controller.AddUpdateItemBST(itemName, itemQuantity);
         }
+    }
+
+    private void OpenQuantityPanel(Item item)
+    {
+        quantityPanel.SetActive(true);
+        quantityPanel.GetComponent<QuantityPanel>().SetItem(item);
     }
 }

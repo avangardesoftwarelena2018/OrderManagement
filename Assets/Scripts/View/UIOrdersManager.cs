@@ -7,6 +7,8 @@ public class UIOrdersManager : MonoBehaviour
     private InputField customerName;
     [SerializeField]
     private GameObject stockItem;
+    [SerializeField]
+    private GameObject orderItemScrollViewContent;
     // Start is called before the first frame update
     void Start()
     {

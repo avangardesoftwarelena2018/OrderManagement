@@ -4,7 +4,6 @@ using System.Collections.Generic;
 [Serializable]
 public class Orders
 {
-    public string clientName;
     public List<Order> orders = new List<Order>();
 }
 
