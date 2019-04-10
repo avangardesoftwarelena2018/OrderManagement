@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class UIOrdersManager : MonoBehaviour
 {
     [SerializeField]
-    private InputField searchInputField;
+    private InputField customerName;
     [SerializeField]
     private GameObject stockItem;
     // Start is called before the first frame update

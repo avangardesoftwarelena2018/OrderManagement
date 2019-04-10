@@ -1,18 +1,23 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class UIStockManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField]
+    private StockController controller = null;
+    [SerializeField]
+    private InputField itemNameInputField = null;
+    [SerializeField]
+    private InputField itemQuantityInputField = null;
+   
+    public void SaveStockItem()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        string itemName = itemNameInputField.text;
+        int.TryParse(itemQuantityInputField.text, out int itemQuantity);
+        itemQuantity = Mathf.Abs(itemQuantity);
+        if (!string.IsNullOrEmpty(itemName))
+        {
+            controller.AddUpdateItemBST(itemName, itemQuantity);
+        }
     }
 }
