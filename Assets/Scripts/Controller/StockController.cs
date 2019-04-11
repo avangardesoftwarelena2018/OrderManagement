@@ -13,7 +13,7 @@ public class StockController : MonoBehaviour
         foreach (Item item in StockDataManager.GetStock().items)
         {
             tree.Insert(item.id, item);
-            uiStockManager.UpdateUIContent(item);
+            uiStockManager.AddItemUI(item);
         }
     }
 

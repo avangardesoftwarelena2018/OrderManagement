@@ -5,6 +5,8 @@ using UnityEngine.UI;
 public class UIOrdersManager : MonoBehaviour
 {
     [SerializeField]
+    private UIStockManager uiStockManager = null;
+    [SerializeField]
     private OrderController controller = null;
     [SerializeField]
     private InputField customerNameInputField = null;
@@ -14,8 +16,9 @@ public class UIOrdersManager : MonoBehaviour
     private Transform orderItemStockContent = null;
     private Order currentOrder;
     private string customerName;
+    private List<GameObject> itemGOList = new List<GameObject>();
 
-    public void UpdateUIContent(Item item)
+    public void AddItemUI(Item item)
     {
         GameObject orderItemGameObject = Instantiate(orderItem, orderItemStockContent);
         orderItemGameObject.GetComponent<OrderItem>().Initialize(item);
@@ -31,13 +34,14 @@ public class UIOrdersManager : MonoBehaviour
             {
                 foreach (Item item in currentOrder.items)
                 {
-                    UpdateUIContent(item);
+                    AddItemUI(item);
                 }
             }
             else
             {
                 controller.SetOrderBST(customerName, new List<Item>());
             }
+            uiStockManager.SetOrderState(true);
         }
     }
 
@@ -47,7 +51,25 @@ public class UIOrdersManager : MonoBehaviour
         if (currentOrder != null)
         {
             currentOrder.items.Add(item);
-            UpdateUIContent(item);
+            controller.SetOrderBST(customerName, currentOrder.items);
+            UpdateUI();
+        }
+    }
+
+    public void UpdateUI()
+    {
+        ClearUI();
+        foreach (Item item in currentOrder.items)
+        {
+            AddItemUI(item);
+        }
+    }
+
+    private void ClearUI()
+    {
+        foreach (var item in itemGOList)
+        {
+            Destroy(item);
         }
     }
 }

@@ -8,18 +8,12 @@ public class OrderController : MonoBehaviour
     [SerializeField]
     private UIOrdersManager uiOrdersManager = null;
     private BSTTree tree = new BSTTree();
-    private List<Item> orderItemList = new List<Item>();
 
     private void Start()
     {
         foreach (Order order in OrderDataManager.Orders.orders)
         {
             tree.Insert(order.id, order);
-            orderItemList.AddRange(order.items);
-            foreach (var item in orderItemList)
-            {
-                uiOrdersManager.UpdateUIContent(item);
-            }
         }
     }
 
