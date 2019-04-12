@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5955969998901164403}
   - component: {fileID: 3373990319550635101}
   m_Layer: 5
-  m_Name: SaveButton
+  m_Name: AddButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -444,7 +444,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Save
+  m_Text: Add
 --- !u!1 &2976028174714675028
 GameObject:
   m_ObjectHideFlags: 0

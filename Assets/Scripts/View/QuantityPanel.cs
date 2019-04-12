@@ -20,6 +20,7 @@ public class QuantityPanel : MonoBehaviour
     public void SetItem(Item item)
     {
         currentItem = item;
+        warningMessage.text = "Insert quantity for " + currentItem.name;
     }
 
     public void AddItemInOrder()
@@ -30,9 +31,7 @@ public class QuantityPanel : MonoBehaviour
         {
             AddItemInOrder(itemQuantity);
             UpdateAddedItemInStock(itemQuantity);
-
             gameObject.SetActive(false);
-            warningMessage.text = "Insert quantity";
         }
         else
         {
@@ -45,6 +44,7 @@ public class QuantityPanel : MonoBehaviour
     {
         stockController.SetItemBST(currentItem.name, currentItem.quantity - itemQuantity);
         uiStockManager.UpdateUI();
+        uiStockManager.UpdateStockContentOrder();
     }
 
     private void AddItemInOrder(int itemQuantity)
@@ -61,5 +61,6 @@ public class QuantityPanel : MonoBehaviour
     private void OnDisable()
     {
         warningMessage.text = "Insert quantity";
+        quantityInputField.text = "";
     }
 }

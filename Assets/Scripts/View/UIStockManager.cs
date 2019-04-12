@@ -9,14 +9,19 @@ public class UIStockManager : MonoBehaviour
     [SerializeField]
     private InputField itemNameInputField = null;
     [SerializeField]
+    private InputField itemPriceInputField = null;
+    [SerializeField]
     private InputField itemQuantityInputField = null;
     [SerializeField]
     private Transform stockItemStockContent = null;
+    [SerializeField]
+    private Transform stockItemOrderContent = null;
     [SerializeField]
     private GameObject stockItem = null;
     [SerializeField]
     private GameObject quantityPanel = null;
     private List<GameObject> itemGOList = new List<GameObject>();
+    private List<GameObject> itemGOOrderList = new List<GameObject>();
     private bool wasOrderCreated;
 
     public void AddItemUI(Item item)
@@ -31,6 +36,8 @@ public class UIStockManager : MonoBehaviour
         string itemName = itemNameInputField.text;
         int.TryParse(itemQuantityInputField.text, out int itemQuantity);
         itemQuantity = Mathf.Abs(itemQuantity);
+        int.TryParse(itemPriceInputField.text, out int itemPrice);
+        itemPrice = Mathf.Abs(itemQuantity);
         if (!string.IsNullOrEmpty(itemName) && itemQuantity > 0)
         {
             controller.SetItemBST(itemName, itemQuantity);
@@ -52,8 +59,24 @@ public class UIStockManager : MonoBehaviour
         }
     }
 
+    public void UpdateStockContentOrder()
+    {
+        foreach (var item in itemGOOrderList)
+        {
+            Destroy(item);
+        }
+        foreach (Item item in StockDataManager.GetStock().items)
+        {
+            GameObject itemGameObject = Instantiate(stockItem, stockItemOrderContent);
+            itemGOOrderList.Add(itemGameObject);
+            itemGameObject.GetComponent<StockItem>().Initialize(item, OpenQuantityPanel);
+        }
+    }
+
     private void ClearUI()
     {
+        itemNameInputField.text = "";
+        itemQuantityInputField.text = "";
         foreach (var item in itemGOList)
         {
             Destroy(item);
