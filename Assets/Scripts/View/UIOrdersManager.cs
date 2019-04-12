@@ -21,6 +21,7 @@ public class UIOrdersManager : MonoBehaviour
     public void AddItemUI(Item item)
     {
         GameObject orderItemGameObject = Instantiate(orderItem, orderItemStockContent);
+        itemGOList.Add(orderItemGameObject);
         orderItemGameObject.GetComponent<OrderItem>().Initialize(item);
     }
 
@@ -32,17 +33,22 @@ public class UIOrdersManager : MonoBehaviour
             currentOrder = controller.GetOrderBST(customerName);
             if (currentOrder != null)
             {
-                foreach (Item item in currentOrder.items)
-                {
-                    AddItemUI(item);
-                }
+                UpdateUI();
             }
             else
             {
                 controller.SetOrderBST(customerName, new List<Item>());
             }
+            uiStockManager.UpdateStockContentOrder();
             uiStockManager.SetOrderState(true);
         }
+    }
+    public void Done()
+    {
+        customerNameInputField.text = "";
+        ClearUI();
+        uiStockManager.UpdateStockContentOrder();
+        uiStockManager.SetOrderState(false);
     }
 
     public void AddItemOrder(Item item)
