@@ -5,8 +5,6 @@ using BST;
 
 public class OrderController : MonoBehaviour
 {
-    [SerializeField]
-    private UIOrdersManager uiOrdersManager = null;
     private BSTTree tree = new BSTTree();
 
     private void Start()

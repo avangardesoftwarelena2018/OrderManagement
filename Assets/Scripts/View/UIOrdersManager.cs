@@ -14,9 +14,14 @@ public class UIOrdersManager : MonoBehaviour
     private GameObject orderItem = null;
     [SerializeField]
     private Transform orderItemStockContent = null;
+    [SerializeField]
+    private GameObject orderInfo = null;
+    [SerializeField]
+    private Transform allOrdersContent = null;
     private Order currentOrder;
     private string customerName;
     private List<GameObject> itemGOList = new List<GameObject>();
+    List<GameObject> orderGOList = new List<GameObject>();
 
     public void AddItemUI(Item item)
     {
@@ -43,6 +48,7 @@ public class UIOrdersManager : MonoBehaviour
             uiStockManager.SetOrderState(true);
         }
     }
+
     public void Done()
     {
         customerNameInputField.text = "";
@@ -68,6 +74,20 @@ public class UIOrdersManager : MonoBehaviour
         foreach (Item item in currentOrder.items)
         {
             AddItemUI(item);
+        }
+    }
+
+    public void ShowAllOrders()
+    {
+        foreach(var order in orderGOList)
+        {
+            Destroy(order);
+        }
+        foreach (var order in OrderDataManager.Orders.orders)
+        {
+            GameObject orderGameObject = Instantiate(orderInfo, allOrdersContent);
+            orderGOList.Add(orderGameObject);
+            orderGameObject.GetComponent<OrderInfo>().Initialize(order);
         }
     }
 

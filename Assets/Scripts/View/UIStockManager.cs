@@ -40,7 +40,7 @@ public class UIStockManager : MonoBehaviour
         itemPrice = Mathf.Abs(itemQuantity);
         if (!string.IsNullOrEmpty(itemName) && itemQuantity > 0)
         {
-            controller.SetItemBST(itemName, itemQuantity);
+            controller.SetItemBST(itemName, itemQuantity, itemPrice);
             UpdateUI();
         }
     }
@@ -76,6 +76,7 @@ public class UIStockManager : MonoBehaviour
     private void ClearUI()
     {
         itemNameInputField.text = "";
+        itemPriceInputField.text = "";
         itemQuantityInputField.text = "";
         foreach (var item in itemGOList)
         {
