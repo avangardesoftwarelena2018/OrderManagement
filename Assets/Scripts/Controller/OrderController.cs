@@ -55,4 +55,9 @@ public class OrderController : MonoBehaviour
         }
         return null;
     }
+
+    public void ClearTree()
+    {
+        tree = new BSTTree();
+    }
 }

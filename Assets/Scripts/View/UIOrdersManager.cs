@@ -15,13 +15,28 @@ public class UIOrdersManager : MonoBehaviour
     [SerializeField]
     private Transform orderItemStockContent = null;
     [SerializeField]
-    private GameObject orderInfo = null;
+    private GameObject orderInfoButtonPrefab = null;
     [SerializeField]
     private Transform allOrdersContent = null;
+    [SerializeField]
+    private Transform allHistoryOrdersContent = null;
+
+    [SerializeField]
+    private GameObject finalOrderItemsPanel = null;
+    [SerializeField]
+    private Text finalOrderClientNamePanel = null;
+    [SerializeField]
+    private Transform allFinalOrderItemsContent = null;
+    [SerializeField]
+    private GameObject finalItemOrderPrefab = null;
+
     private Order currentOrder;
     private string customerName;
+
     private List<GameObject> itemGOList = new List<GameObject>();
-    List<GameObject> orderGOList = new List<GameObject>();
+    private List<GameObject> orderGOList = new List<GameObject>();
+    private List<GameObject> historyOrderGOList = new List<GameObject>();
+    private List<GameObject> finalItemOrderGOList = new List<GameObject>();
 
     public void AddItemUI(Item item)
     {
@@ -62,7 +77,15 @@ public class UIOrdersManager : MonoBehaviour
         currentOrder = controller.GetOrderBST(customerName);
         if (currentOrder != null)
         {
-            currentOrder.items.Add(item);
+            Item itemToUpdate = currentOrder.items.Find(i => i.id == item.id);
+            if (itemToUpdate != null)
+            {
+                itemToUpdate.quantity += item.quantity;
+            }
+            else
+            {
+                currentOrder.items.Add(item);
+            }
             controller.SetOrderBST(customerName, currentOrder.items);
             UpdateUI();
         }
@@ -85,9 +108,53 @@ public class UIOrdersManager : MonoBehaviour
         }
         foreach (var order in OrderDataManager.Orders.orders)
         {
-            GameObject orderGameObject = Instantiate(orderInfo, allOrdersContent);
+            GameObject orderGameObject = Instantiate(orderInfoButtonPrefab, allOrdersContent);
             orderGOList.Add(orderGameObject);
-            orderGameObject.GetComponent<OrderInfo>().Initialize(order);
+            orderGameObject.GetComponent<OrderInfo>().Initialize(order, ShowItemsOrder);
+        }
+    }
+
+    public void Proceed()
+    {
+        List<Order> ordersToHistory = OrderHistoryDataManager.Orders.orders;
+        ordersToHistory.AddRange(OrderDataManager.Orders.orders);
+
+        OrderHistoryDataManager.UpdateOrders(ordersToHistory);
+        OrderDataManager.UpdateOrders(new List<Order>());
+        controller.ClearTree();
+        foreach (var order in orderGOList)
+        {
+            Destroy(order);
+        }
+    }
+
+    public void ShowAllHistoryOrders()
+    {
+        foreach (var order in historyOrderGOList)
+        {
+            Destroy(order);
+        }
+        foreach (var order in OrderHistoryDataManager.Orders.orders)
+        {
+            GameObject orderGameObject = Instantiate(orderInfoButtonPrefab, allHistoryOrdersContent);
+            historyOrderGOList.Add(orderGameObject);
+            orderGameObject.GetComponent<OrderInfo>().Initialize(order, ShowItemsOrder);
+        }
+    }
+
+    private void ShowItemsOrder(Order order)
+    {
+        finalOrderItemsPanel.SetActive(true);
+        finalOrderClientNamePanel.text = order.clientName;
+        foreach (var item in finalItemOrderGOList)
+        {
+            Destroy(item);
+        }
+        foreach (var item in order.items)
+        {
+            GameObject finalOrderItemGameObject = Instantiate(finalItemOrderPrefab, allFinalOrderItemsContent);
+            finalItemOrderGOList.Add(finalOrderItemGameObject);
+            finalOrderItemGameObject.GetComponent<OrderItem>().Initialize(item);
         }
     }
 

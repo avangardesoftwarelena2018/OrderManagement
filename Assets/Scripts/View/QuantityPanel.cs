@@ -53,6 +53,7 @@ public class QuantityPanel : MonoBehaviour
         {
             id = currentItem.id,
             name = currentItem.name,
+            price = currentItem.price,
             quantity = itemQuantity
         };
         uiOrdersManager.AddItemOrder(newAddedItem);

@@ -37,7 +37,7 @@ public class UIStockManager : MonoBehaviour
         int.TryParse(itemQuantityInputField.text, out int itemQuantity);
         itemQuantity = Mathf.Abs(itemQuantity);
         int.TryParse(itemPriceInputField.text, out int itemPrice);
-        itemPrice = Mathf.Abs(itemQuantity);
+        itemPrice = Mathf.Abs(itemPrice);
         if (!string.IsNullOrEmpty(itemName) && itemQuantity > 0)
         {
             controller.SetItemBST(itemName, itemQuantity, itemPrice);
