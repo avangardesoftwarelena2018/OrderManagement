@@ -17,7 +17,7 @@ public class StockController : MonoBehaviour
         }
     }
 
-    public void SetItemBST(string itemName, int itemQuantity)
+    public void SetItemBST(string itemName, int itemQuantity, int itemPrice)
     {
         int itemID = itemName.GetHashCode();
         BSTNode node = tree.Find(itemID);
@@ -27,6 +27,7 @@ public class StockController : MonoBehaviour
             {
                 id = itemID,
                 name = itemName,
+                price = itemPrice,
                 quantity = itemQuantity
             };
             tree.Insert(itemID, item);
@@ -38,6 +39,7 @@ public class StockController : MonoBehaviour
             {
                 id = itemID,
                 name = node.GetData<Item>().name,
+                price = itemPrice,
                 quantity = itemQuantity
             }, itemID);
         }
