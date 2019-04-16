@@ -1,4 +1,6 @@
 # OrderManagement
+![alt text](
+https://raw.githubusercontent.com/avangardesoftwarelena2018/OrderManagement/fcb11a65053832f3071290aa44ba6f524460b964/Assets/1555426089425.JPEG)
 ## An order management application. Using the UI, a user is be able to add new items to the inventory and place orders for customers.
 * App is based on MVC pattern
 * For managing the inventory and the orders is used BST-Binary Search Trees
