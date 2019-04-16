@@ -18,7 +18,7 @@ public class OrderInfo : MonoBehaviour
         GetComponent<Button>().onClick.AddListener(() => callback(order));
         orderIDText.text = order.id.ToString();
         customerNameText.text = order.clientName;
-        int price = 0;
+        float price = 0;
         foreach (var item in order.items)
         {
             price += item.price * item.quantity;

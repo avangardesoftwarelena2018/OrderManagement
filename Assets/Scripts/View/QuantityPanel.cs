@@ -42,7 +42,7 @@ public class QuantityPanel : MonoBehaviour
 
     private void UpdateAddedItemInStock(int itemQuantity)
     {
-        stockController.SetItemBST(currentItem.name, currentItem.quantity - itemQuantity, currentItem.price);
+        stockController.SetItemBST(currentItem.name, currentItem.quantity - itemQuantity, currentItem.price, currentItem.isOnSale, currentItem.price);
         uiStockManager.UpdateUI();
         uiStockManager.UpdateStockContentOrder();
     }
