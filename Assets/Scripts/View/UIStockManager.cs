@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class UIStockManager : MonoBehaviour
 {
+    [Header ("InventoryTab")]
     [SerializeField]
     private StockController controller = null;
     [SerializeField]
@@ -13,6 +14,10 @@ public class UIStockManager : MonoBehaviour
     [SerializeField]
     private InputField itemQuantityInputField = null;
     [SerializeField]
+    private Text itemSalePercentText = null;
+
+    [Header("OrderTab")]
+    [SerializeField]
     private Transform stockItemStockContent = null;
     [SerializeField]
     private Transform stockItemOrderContent = null;
@@ -20,15 +25,22 @@ public class UIStockManager : MonoBehaviour
     private GameObject stockItem = null;
     [SerializeField]
     private GameObject quantityPanel = null;
+
     private List<GameObject> itemGOList = new List<GameObject>();
     private List<GameObject> itemGOOrderList = new List<GameObject>();
     private bool wasOrderCreated;
+    private bool isOnSale;
+    private float salePercent;
 
-    public void AddItemUI(Item item)
+    public void SetItemOnSale(bool value)
     {
-        GameObject itemGameObject = Instantiate(stockItem, stockItemStockContent);
-        itemGOList.Add(itemGameObject);
-        itemGameObject.GetComponent<StockItem>().Initialize(item, OpenQuantityPanel);
+        isOnSale = value;
+    }
+
+    public void SetItemSalePercent(float percent)
+    {
+        salePercent = percent;
+        itemSalePercentText.text = (salePercent * 100).ToString() + "%";
     }
 
     public void SaveStockItem()
@@ -36,11 +48,17 @@ public class UIStockManager : MonoBehaviour
         string itemName = itemNameInputField.text;
         int.TryParse(itemQuantityInputField.text, out int itemQuantity);
         itemQuantity = Mathf.Abs(itemQuantity);
-        int.TryParse(itemPriceInputField.text, out int itemPrice);
+        float.TryParse(itemPriceInputField.text, out float itemPrice);
         itemPrice = Mathf.Abs(itemPrice);
+
+        if (isOnSale)
+        {
+            itemPrice = itemPrice - salePercent * itemPrice;
+        }
+
         if (!string.IsNullOrEmpty(itemName) && itemQuantity > 0)
         {
-            controller.SetItemBST(itemName, itemQuantity, itemPrice);
+            controller.SetItemBST(itemName, itemQuantity, itemPrice, isOnSale, salePercent);
             UpdateUI();
         }
     }
@@ -57,6 +75,13 @@ public class UIStockManager : MonoBehaviour
         {
             AddItemUI(item);
         }
+    }
+    
+    public void AddItemUI(Item item)
+    {
+        GameObject itemGameObject = Instantiate(stockItem, stockItemStockContent);
+        itemGOList.Add(itemGameObject);
+        itemGameObject.GetComponent<StockItem>().Initialize(item, OpenQuantityPanel);
     }
 
     public void UpdateStockContentOrder()

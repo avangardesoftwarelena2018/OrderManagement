@@ -20,6 +20,8 @@ public class Item
 {
     public int id;
     public string name;
-    public int price;
+    public float price;
     public int quantity;
+    public bool isOnSale;
+    public float salePercent;
 }
